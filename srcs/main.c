@@ -28,14 +28,14 @@ int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-int	iter(t_point point, t_point c)
+int	iter(t_point point, t_point c, double max_it)
 {
 	int		i;
 	t_point	new;
 
 	i = 0;
 	// ft_bzero(&point, 2);
-	while (i++ < 500)
+	while (i++ < max_it)
 	{
 		if (point.x * point.x + point.y * point.y > 3.5)
 		{
@@ -70,10 +70,14 @@ void	create_img(t_vars *vars)
 				+ vars->moveY;
 			point.x = (x - WIN_WIDTH / 2) / (double)WIN_WIDTH * 5 / vars->zoom
 				+ vars->moveX;
-			iters = iter(point, vars->c);
+			iters = iter(point, vars->c, vars->max_it) / vars->max_it * 255;
+			if (iters && iters < 127)
+				iters = 127;
 			if (iters)
-				img_pixel_put(&vars->img, x, y, create_trgb(0, 255 * iters
-						/ 500, 0, 255 * iters / 500) * 50);
+				img_pixel_put(&vars->img, x, y, create_trgb(255, iters, 170,
+						205));
+			else
+				img_pixel_put(&vars->img, x, y, create_trgb(0, 255, 255, 255));
 			x++;
 		}
 		y++;
@@ -89,9 +93,9 @@ int	mouse_hook(int button, int x, int y, t_vars *vars)
 	printf("%d\n", button);
 	printf("%f\n", vars->zoom);
 	if (button == 4)
-		vars->zoom *= 1.5;
+		vars->zoom *= 1.1;
 	else if (button == 5)
-		vars->zoom /= 1.5;
+		vars->zoom /= 1.1;
 	create_img(vars);
 	return (0);
 }
@@ -99,13 +103,13 @@ int	mouse_hook(int button, int x, int y, t_vars *vars)
 int	key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == XK_Up)
-		vars->moveY -= 1 / vars->zoom;
+		vars->moveY -= (0.25) / vars->zoom;
 	else if (keycode == XK_Down)
-		vars->moveY += 1 / vars->zoom;
+		vars->moveY += (0.25) / vars->zoom;
 	else if (keycode == XK_Left)
-		vars->moveX -= 1 / vars->zoom;
+		vars->moveX -= (0.25) / vars->zoom;
 	else if (keycode == XK_Right)
-		vars->moveX += 1 / vars->zoom;
+		vars->moveX += (0.25) / vars->zoom;
 	printf("%f %f\n", vars->moveX, vars->moveY);
 	create_img(vars);
 	return (0);
@@ -117,11 +121,14 @@ int	main(void)
 
 	vars.zoom = 1;
 	printf("%f\n", vars.zoom);
-	vars.c.x = -1;
-	vars.c.y = 0;
+	// vars.c.x = -.385;
+	vars.c.x = .285;
+	// vars.c.y = .6;
+	vars.c.y = .01;
 	vars.moveX = 0;
 	vars.moveY = 0;
 	vars.mlx = mlx_init();
+	vars.max_it = 175;
 	vars.win = mlx_new_window(vars.mlx, WIN_WIDTH, WIN_HEIGHT, "Hello world!");
 	create_img(&vars);
 	mlx_mouse_hook(vars.win, mouse_hook, &vars);

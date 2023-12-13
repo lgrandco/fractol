@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 23:12:51 by leo               #+#    #+#             */
-/*   Updated: 2023/12/07 18:12:50 by legrandc         ###   ########.fr       */
+/*   Updated: 2023/12/13 19:03:42 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_vars
 	void	*mlx;
 	void	*win;
 	t_data	img;
+	double	max_it;
 }			t_vars;
 
 #endif // !PIPEX_H
