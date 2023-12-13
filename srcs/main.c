@@ -5,14 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 02:23:49 by legrandc          #+#    #+#             */
-/*   Updated: 2023/12/02 18:51:44 by legrandc         ###   ########.fr       */
+/*   Created: 50023/11/29 02:23:49 by legrandc          #+#    #+#             */
+/*   Updated: 2023/12/07 18:28:40 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
 #include "../libft/libft.h"
 #include "../minilibx-linux/mlx.h"
+#include "../minilibx-linux/mlx_int.h"
 
 void	img_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -21,68 +22,109 @@ void	img_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y)*data->line_length + x * 4;
 	*(unsigned int *)dst = color;
 }
-t_point	c = {-7, 0.27015};
 
-int	iter(t_point point)
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+int	iter(t_point point, t_point c)
 {
 	int		i;
 	t_point	new;
 
 	i = 0;
 	// ft_bzero(&point, 2);
-	while (i++ < 2)
+	while (i++ < 500)
 	{
-		if (point.x * point.x + point.y * point.y > 4)
+		if (point.x * point.x + point.y * point.y > 3.5)
 		{
-			printf("%f (*) %f= %f\n", point.x, point.y, point.x * point.x
-				+ point.y * point.y);
-			return (1);
+			// printf("%f (*) %f= %f\n", point.x, point.y, point.x * point.x
+			// 	+ point.y * point.y);
+			return (i);
 		}
 		new.x = point.x *point.x - point.y *point.y + c.x;
 		new.y = 2 * point.x *point.y + c.y;
-		point.x = new.x;
-		point.y = new.y;
+		point = new;
 	}
 	return (0);
 }
 
-void	put_pixel(t_data *img, int x, int y)
+void	create_img(t_vars *vars)
 {
 	t_point	point;
+	double	iters;
+	float	x;
+	float	y;
 
-	point.y = (y - WIN_HEIGHT / 2) / (double)WIN_HEIGHT * 5;
-	point.x = (x - WIN_WIDTH / 2) / (double)WIN_WIDTH * 5;
-	// printf("%f   %f\n", point.x, point.y);
-	if (iter(point))
-		img_pixel_put(img, x, y, 0xFFFFFFFF);
-}
-
-int	main(void)
-{
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
-	int		x;
-	int		y;
-
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, WIN_WIDTH, WIN_HEIGHT, "Hello world!");
-	img.img = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-			&img.endian);
-	printf("%d %d %d\n", img.line_length, img.bits_per_pixel, img.endian);
-	img_pixel_put(&img, 0, 100, 0xFFFFFFFF);
+	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
+	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel,
+			&vars->img.line_length, &vars->img.endian);
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
 		x = 0;
 		while (x < WIN_WIDTH)
 		{
-			put_pixel(&img, x, y);
+			point.y = (y - WIN_HEIGHT / 2) / (double)WIN_HEIGHT * 5 / vars->zoom
+				+ vars->moveY;
+			point.x = (x - WIN_WIDTH / 2) / (double)WIN_WIDTH * 5 / vars->zoom
+				+ vars->moveX;
+			iters = iter(point, vars->c);
+			if (iters)
+				img_pixel_put(&vars->img, x, y, create_trgb(0, 255 * iters
+						/ 500, 0, 255 * iters / 500) * 50);
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+	mlx_destroy_image(vars->mlx, vars->img.img);
+}
+
+int	mouse_hook(int button, int x, int y, t_vars *vars)
+{
+	(void)x;
+	(void)y;
+	printf("%d\n", button);
+	printf("%f\n", vars->zoom);
+	if (button == 4)
+		vars->zoom *= 1.5;
+	else if (button == 5)
+		vars->zoom /= 1.5;
+	create_img(vars);
+	return (0);
+}
+
+int	key_hook(int keycode, t_vars *vars)
+{
+	if (keycode == XK_Up)
+		vars->moveY -= 1 / vars->zoom;
+	else if (keycode == XK_Down)
+		vars->moveY += 1 / vars->zoom;
+	else if (keycode == XK_Left)
+		vars->moveX -= 1 / vars->zoom;
+	else if (keycode == XK_Right)
+		vars->moveX += 1 / vars->zoom;
+	printf("%f %f\n", vars->moveX, vars->moveY);
+	create_img(vars);
+	return (0);
+}
+
+int	main(void)
+{
+	t_vars	vars;
+
+	vars.zoom = 1;
+	printf("%f\n", vars.zoom);
+	vars.c.x = -1;
+	vars.c.y = 0;
+	vars.moveX = 0;
+	vars.moveY = 0;
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, WIN_WIDTH, WIN_HEIGHT, "Hello world!");
+	create_img(&vars);
+	mlx_mouse_hook(vars.win, mouse_hook, &vars);
+	mlx_key_hook(vars.win, key_hook, &vars);
+	mlx_loop(vars.mlx);
 }
