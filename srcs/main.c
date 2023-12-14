@@ -67,15 +67,15 @@ void	create_img(t_vars *vars)
 		while (x < WIN_WIDTH)
 		{
 			point.y = (y - WIN_HEIGHT / 2) / (double)WIN_HEIGHT * 5 / vars->zoom
-				+ vars->moveY;
+				+ (vars->moveY / vars->zoom);
 			point.x = (x - WIN_WIDTH / 2) / (double)WIN_WIDTH * 5 / vars->zoom
-				+ vars->moveX;
-			iters = iter(point, vars->c, vars->max_it) / vars->max_it * 255;
-			if (iters && iters < 127)
-				iters = 127;
+				+ (vars->moveX / vars->zoom);
+			iters = iter(point, vars->c, vars->max_it) / vars->max_it;
+			// if (iters && iters < 127)
+			// 	iters = 127;
 			if (iters)
-				img_pixel_put(&vars->img, x, y, create_trgb(255, iters, 170,
-						205));
+				img_pixel_put(&vars->img, x, y, create_trgb(255, ft_max(0, iters
+							* 0), iters * 170, ft_max(150, iters * 255)));
 			else
 				img_pixel_put(&vars->img, x, y, create_trgb(0, 255, 255, 255));
 			x++;
@@ -88,14 +88,19 @@ void	create_img(t_vars *vars)
 
 int	mouse_hook(int button, int x, int y, t_vars *vars)
 {
-	(void)x;
-	(void)y;
-	printf("%d\n", button);
-	printf("%f\n", vars->zoom);
 	if (button == 4)
+	{
+		vars->moveX += -0.25 + vars->moveX += ((x - WIN_WIDTH / 2.0)) / 400
+			/ vars->zoom;
+		vars->moveY += ((y - WIN_HEIGHT / 2.0)) / 400 / vars->zoom;
 		vars->zoom *= 1.1;
+	}
 	else if (button == 5)
+	{
+		vars->moveX -= (((x - WIN_WIDTH / 2.0)) * vars->zoom) / WIN_WIDTH / 2;
+		vars->moveY -= (((y - WIN_HEIGHT / 2.0)) * vars->zoom) / WIN_HEIGHT / 2;
 		vars->zoom /= 1.1;
+	}
 	create_img(vars);
 	return (0);
 }
@@ -103,13 +108,13 @@ int	mouse_hook(int button, int x, int y, t_vars *vars)
 int	key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == XK_Up)
-		vars->moveY -= (0.25) / vars->zoom;
+		vars->moveY -= (0.25);
 	else if (keycode == XK_Down)
-		vars->moveY += (0.25) / vars->zoom;
+		vars->moveY += (0.25);
 	else if (keycode == XK_Left)
-		vars->moveX -= (0.25) / vars->zoom;
+		vars->moveX -= (0.25);
 	else if (keycode == XK_Right)
-		vars->moveX += (0.25) / vars->zoom;
+		vars->moveX += (0.25);
 	printf("%f %f\n", vars->moveX, vars->moveY);
 	create_img(vars);
 	return (0);
@@ -122,13 +127,13 @@ int	main(void)
 	vars.zoom = 1;
 	printf("%f\n", vars.zoom);
 	// vars.c.x = -.385;
-	vars.c.x = .285;
 	// vars.c.y = .6;
+	vars.c.x = .285;
 	vars.c.y = .01;
 	vars.moveX = 0;
 	vars.moveY = 0;
 	vars.mlx = mlx_init();
-	vars.max_it = 175;
+	vars.max_it = 20;
 	vars.win = mlx_new_window(vars.mlx, WIN_WIDTH, WIN_HEIGHT, "Hello world!");
 	create_img(&vars);
 	mlx_mouse_hook(vars.win, mouse_hook, &vars);

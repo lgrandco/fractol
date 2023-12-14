@@ -1,3 +1,6 @@
 {
-	"C_Cpp.intelliSenseEngineFallback": "disabled"
+	"C_Cpp.intelliSenseEngineFallback": "disabled",
+	"files.associations": {
+		"mlx_int.h": "c"
+	}
 }
