@@ -28,6 +28,7 @@ $(LIBFT) :
 	make bonus -C $(LIBFT_PATH)
 
 $(NAME) : $(LIBFT) ${OBJ} $(NAME).h
+	make -C minilibx-linux
 	$(CC) $(INCLUDES) -o $(NAME) $(SRC) $(LBS) $(LIBFT)
 
 bonus : $(NAME)
