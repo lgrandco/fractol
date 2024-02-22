@@ -6,11 +6,24 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 16:32:29 by legrandc          #+#    #+#             */
-/*   Updated: 2023/11/02 16:35:29 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:38:16 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_toupper(int c)
 {
 	return (c - (c >= 'a' && c <= 'z') * 32);
+}
+
+char	*ft_upper(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*(str + i))
+	{
+		*(str + i) = ft_toupper(*(str + i));
+		i++;
+	}
+	return (str);
 }

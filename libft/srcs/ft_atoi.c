@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:47:29 by leo               #+#    #+#             */
-/*   Updated: 2023/11/07 01:30:46 by leo              ###   ########.fr       */
+/*   Updated: 2024/02/21 14:56:19 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,49 @@ int	ft_atoi(const char *nptr)
 	while (ft_isdigit(*nptr))
 	{
 		ret = ret * 10 + *nptr - '0';
+		nptr++;
+	}
+	return (ret * sign);
+}
+
+int	ft_pow(int n, int exp)
+{
+	int	r;
+
+	r = n;
+	while (exp-- > 1)
+		r *= n;
+	return (r);
+}
+
+double	ft_atof(const char *nptr)
+{
+	double	ret;
+	int		sign;
+	int		count;
+
+	ret = 0;
+	sign = 1;
+	while (ft_isspace(*nptr))
+		nptr++;
+	if (*nptr == '-')
+	{
+		sign = -1;
+		nptr++;
+	}
+	else if (*nptr == '+')
+		nptr++;
+	while (ft_isdigit(*nptr))
+	{
+		ret = ret * 10 + *nptr - '0';
+		nptr++;
+	}
+	if (*nptr++ != '.')
+		return (ret * sign);
+	count = 1;
+	while (ft_isdigit(*nptr))
+	{
+		ret += (*nptr - '0') / (double)ft_pow(10, count++);
 		nptr++;
 	}
 	return (ret * sign);

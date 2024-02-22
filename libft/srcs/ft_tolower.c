@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 16:35:02 by legrandc          #+#    #+#             */
-/*   Updated: 2023/11/07 00:53:51 by leo              ###   ########.fr       */
+/*   Updated: 2024/02/21 15:37:28 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_tolower(int c)
 {
 	return (c + (c >= 'A' && c <= 'Z') * 32);
+}
+
+char	*ft_lower(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*(str + i))
+	{
+		*(str + i) = ft_tolower(*(str + i));
+		i++;
+	}
+	return (str);
 }

@@ -1,6 +1,10 @@
 {
 	"C_Cpp.intelliSenseEngineFallback": "disabled",
 	"files.associations": {
-		"mlx_int.h": "c"
-	}
+		"mlx_int.h": "c",
+		"cmath": "c",
+		"limits": "c",
+		"fractol.h": "c"
+	},
+	"functionHeaderExtension.headerFilePath": "/home/legrandc/42/fractol/fractol.h"
 }

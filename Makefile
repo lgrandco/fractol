@@ -2,7 +2,7 @@ NAME = fractol
 
 SRC_PATH = srcs
 
-SRC = main.c
+SRC = main.c fractol.c mlx_events.c utils.c
 
 SRC := $(addprefix $(SRC_PATH)/,$(SRC))
 
@@ -12,7 +12,7 @@ CC = clang
 
 INCLUDES = -I minilibx-linux/ -I./ -Ilibft/
 
-LBS = -L ./minilibx-linux/ -lmlx -lX11 -lXext
+LBS = -L ./minilibx-linux/ -lmlx -lX11 -lXext -lm
 
 CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
 

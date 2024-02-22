@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 17:55:36 by legrandc          #+#    #+#             */
-/*   Updated: 2023/11/30 10:27:36 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:07:12 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ typedef struct s_list
 }					t_list;
 
 /* FUNCTIONS */
+char				*ft_upper(char *str);
+char				*ft_lower(char *str);
+int					ft_pow(int n, int exp);
+double				ft_atof(const char *nptr);
 int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strjoin3(char const *s1, char const *s2,
 						char const *s3);
