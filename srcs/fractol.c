@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:05:26 by legrandc          #+#    #+#             */
-/*   Updated: 2024/02/22 14:36:45 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:00:33 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	create_img(t_vars *vars)
 	double	x;
 
 	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!vars->img.img && ft_printf("Mlx error\n"))
+		destroy_exit_event(vars);
 	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel,
 			&vars->img.line_length, &vars->img.endian);
 	y = 0;

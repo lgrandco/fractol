@@ -6,17 +6,11 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 02:23:04 by  legrandc         #+#    #+#             */
-/*   Updated: 2024/02/22 14:34:48 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:54:18 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-void	raise_exit(t_vars *vars, char *str)
-{
-	perror(str);
-	destroy_exit_event(vars);
-}
 
 int	main(int ac, char **av)
 {
@@ -31,11 +25,11 @@ int	main(int ac, char **av)
 	}
 	fractol_init(&vars, av);
 	vars.mlx = mlx_init();
-	if (!vars.mlx)
-		raise_exit(&vars, "mlx_init");
+	if (!vars.mlx && ft_printf("Mlx error\n"))
+		destroy_exit_event(&vars);
 	vars.win = mlx_new_window(vars.mlx, WIN_WIDTH, WIN_HEIGHT, "Hello world!");
-	if (!vars.win)
-		raise_exit(&vars, "mlx_new_window");
+	if (!vars.win && ft_printf("Mlx error\n"))
+		destroy_exit_event(&vars);
 	create_img(&vars);
 	mlx_mouse_hook(vars.win, mouse_hook, &vars);
 	mlx_hook(vars.win, MotionNotify, Button1MotionMask, motion, &vars);
