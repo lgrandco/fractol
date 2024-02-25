@@ -14,7 +14,7 @@ INCLUDES = -I minilibx-linux/ -I./ -Ilibft/
 
 LBS = -L ./minilibx-linux/ -lmlx -lX11 -lXext -lm
 
-CFLAGS = -Wall -Werror -Wextra -g3 $(INCLUDES)
+CFLAGS = $(INCLUDES) -Wall -Werror -Wextra -g3
 
 RM = rm -f
 
@@ -29,7 +29,7 @@ $(LIBFT) :
 
 $(NAME) : $(LIBFT) ${OBJ} $(NAME).h
 	make -C minilibx-linux
-	$(CC) $(INCLUDES) -o $(NAME) $(SRC) $(LBS) $(LIBFT)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(SRC) $(LBS) $(LIBFT)
 
 bonus : $(NAME)
 

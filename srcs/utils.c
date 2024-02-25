@@ -54,6 +54,8 @@ void	fractol_init(t_vars *vars, char **av)
 	vars->shift_val = 0;
 	vars->pal = 0;
 	vars->shift_bool = 1;
+	vars->c.x = -.385;
+	vars->c.y = -.6;
 	vars->julia = 0;
 	vars->mandel = 0;
 	vars->ship = 0;
