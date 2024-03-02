@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:00:15 by legrandc          #+#    #+#             */
-/*   Updated: 2024/02/22 18:09:32 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/03/02 14:24:09 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	fractol_init(t_vars *vars, char **av)
 		vars->c.x = ft_atof(av[2]);
 		vars->c.y = ft_atof(av[3]);
 	}
-	vars->moveX = 0;
-	vars->moveY = 0;
+	vars->move_x = 0;
+	vars->move_y = 0;
 	vars->max_it = 50;
 	if (!ft_strcmp(av[1], "julia"))
 		vars->julia = 1;

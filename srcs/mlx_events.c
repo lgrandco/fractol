@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 09:58:32 by legrandc          #+#    #+#             */
-/*   Updated: 2024/02/22 15:17:18 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/03/02 14:24:09 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	mouse_hook(int button, int x, int y, t_vars *vars)
 	t_point	point;
 
 	point.x = (x - WIN_WIDTH / 2) / (double)WIN_WIDTH * 5 / vars->zoom
-		+ vars->moveX;
+		+ vars->move_x;
 	point.y = (y - WIN_HEIGHT / 2) / (double)WIN_HEIGHT * 5 / vars->zoom
-		+ vars->moveY;
+		+ vars->move_y;
 	if (button == 4)
 	{
 		if (vars->shift_bool)
@@ -28,9 +28,9 @@ int	mouse_hook(int button, int x, int y, t_vars *vars)
 	}
 	else if (button == 5)
 		vars->zoom /= 1.1;
-	vars->moveX = -((x - WIN_WIDTH / 2) / (double)WIN_WIDTH * 5 / vars->zoom
+	vars->move_x = -((x - WIN_WIDTH / 2) / (double)WIN_WIDTH * 5 / vars->zoom
 			- point.x);
-	vars->moveY = -((y - WIN_HEIGHT / 2) / (double)WIN_HEIGHT * 5 / vars->zoom
+	vars->move_y = -((y - WIN_HEIGHT / 2) / (double)WIN_HEIGHT * 5 / vars->zoom
 			- point.y);
 	ft_printf("zoom: %u.%d\n", (long)vars->zoom, (int)(fmod(vars->zoom, 1)
 			* 100));
@@ -43,13 +43,13 @@ int	key_hook(int keycode, t_vars *vars)
 	if (keycode == XK_Escape)
 		destroy_exit_event(vars);
 	if (keycode == XK_Up)
-		vars->moveY -= .25 / vars->zoom;
+		vars->move_y -= .25 / vars->zoom;
 	else if (keycode == XK_Down)
-		vars->moveY += .25 / vars->zoom;
+		vars->move_y += .25 / vars->zoom;
 	else if (keycode == XK_Left)
-		vars->moveX -= .25 / vars->zoom;
+		vars->move_x -= .25 / vars->zoom;
 	else if (keycode == XK_Right)
-		vars->moveX += .25 / vars->zoom;
+		vars->move_x += .25 / vars->zoom;
 	else if (keycode == XK_n)
 		vars->pal = (vars->pal + 1) % 6;
 	else if (keycode == XK_equal && ft_printf("max iterations: %d\n",
@@ -74,9 +74,9 @@ int	motion(int x, int y, t_vars *vars)
 	old_x = x;
 	old_y = y;
 	vars->c.x = (x - WIN_WIDTH / 2) / (double)WIN_WIDTH * 5 / vars->zoom
-		+ vars->moveX;
+		+ vars->move_x;
 	vars->c.y = (y - WIN_HEIGHT / 2) / (double)WIN_HEIGHT * 5 / vars->zoom
-		+ vars->moveY;
+		+ vars->move_y;
 	ft_printf("coords: (%d.%d %d.%d)\n", (int)vars->c.x,
 		(int)ft_abs(fmod(vars->c.x, 1) * 100), (int)vars->c.y,
 		(int)ft_abs(fmod(vars->c.y, 1) * 100));

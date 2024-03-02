@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:05:26 by legrandc          #+#    #+#             */
-/*   Updated: 2024/02/23 15:00:33 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/03/02 14:24:09 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ double	iterate(t_vars *vars, t_point point, t_point c, double max_it)
 			nu = log(log_zn / log(2)) / log(2);
 			return (i - nu);
 		}
-		new.x = point.x * point.x - point.y * point.y + c.x;
-		new.y = 2 * point.x * point.y + c.y;
+		new.x = point.x *point.x - point.y *point.y + c.x;
+		new.y = 2 * point.x *point.y + c.y;
 		point = new;
 	}
 	return (0);
@@ -48,9 +48,9 @@ void	color_img(t_vars *vars, int x, int y)
 	int		color2;
 
 	point.y = (y - WIN_HEIGHT / 2) / (double)WIN_HEIGHT * 5 / vars->zoom
-		+ vars->moveY;
+		+ vars->move_y;
 	point.x = (x - WIN_WIDTH / 2) / (double)WIN_WIDTH * 5 / vars->zoom
-		+ vars->moveX;
+		+ vars->move_x;
 	if (!vars->julia)
 		vars->c = point;
 	iters = iterate(vars, point, vars->c, vars->max_it);

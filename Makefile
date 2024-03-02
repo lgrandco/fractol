@@ -29,7 +29,7 @@ $(LIBFT) :
 
 $(NAME) : $(LIBFT) ${OBJ} $(NAME).h
 	make -C minilibx-linux
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(SRC) $(LBS) $(LIBFT)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJ) $(LBS) $(LIBFT)
 
 bonus : $(NAME)
 

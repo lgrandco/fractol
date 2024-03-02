@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 23:12:51 by leo               #+#    #+#             */
-/*   Updated: 2024/02/22 13:08:58 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/03/02 14:23:16 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct s_vars
 	t_point			c;
 	t_point			mouse_pos;
 	double			zoom;
-	double			moveY;
-	double			moveX;
+	double			move_y;
+	double			move_x;
 	void			*mlx;
 	void			*win;
 	t_data			img;

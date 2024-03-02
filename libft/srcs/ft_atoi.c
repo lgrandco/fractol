@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 18:47:29 by leo               #+#    #+#             */
-/*   Updated: 2024/02/21 14:56:19 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/03/02 14:26:32 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,25 +61,16 @@ double	ft_atof(const char *nptr)
 	sign = 1;
 	while (ft_isspace(*nptr))
 		nptr++;
-	if (*nptr == '-')
-	{
+	if (*nptr == '-' && nptr++)
 		sign = -1;
-		nptr++;
-	}
 	else if (*nptr == '+')
 		nptr++;
 	while (ft_isdigit(*nptr))
-	{
-		ret = ret * 10 + *nptr - '0';
-		nptr++;
-	}
+		ret = ret * 10 + *nptr++ - '0';
 	if (*nptr++ != '.')
 		return (ret * sign);
 	count = 1;
 	while (ft_isdigit(*nptr))
-	{
-		ret += (*nptr - '0') / (double)ft_pow(10, count++);
-		nptr++;
-	}
+		ret += (*nptr++ - '0') / (double)ft_pow(10, count++);
 	return (ret * sign);
 }
