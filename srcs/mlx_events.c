@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 09:58:32 by legrandc          #+#    #+#             */
-/*   Updated: 2024/03/02 14:24:09 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/03/02 18:31:52 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,8 @@ int	motion(int x, int y, t_vars *vars)
 		+ vars->move_x;
 	vars->c.y = (y - WIN_HEIGHT / 2) / (double)WIN_HEIGHT * 5 / vars->zoom
 		+ vars->move_y;
-	ft_printf("coords: (%d.%d %d.%d)\n", (int)vars->c.x,
-		(int)ft_abs(fmod(vars->c.x, 1) * 100), (int)vars->c.y,
-		(int)ft_abs(fmod(vars->c.y, 1) * 100));
+	ft_printf("coords: (%d.%d %d.%d)\n", (int)vars->c.x, (int)(fmod(vars->c.x,
+				1) * 100), (int)vars->c.y, (int)(fmod(vars->c.y, 1) * 100));
 	create_img(vars);
 	return (0);
 }
