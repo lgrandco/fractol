@@ -6,7 +6,7 @@
 /*   By: legrandc <legrandc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:05:26 by legrandc          #+#    #+#             */
-/*   Updated: 2024/03/02 20:11:22 by legrandc         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:50:39 by legrandc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ double	iterate(t_vars *vars, t_point point, t_point c, double max_it)
 	double	log_zn;
 	double	nu;
 
-	point.y *= -1;
+	if (vars->julia)
+		point.y *= -1;
 	i = 0;
 	while (i++ < max_it)
 	{
@@ -34,8 +35,8 @@ double	iterate(t_vars *vars, t_point point, t_point c, double max_it)
 			nu = log(log_zn / log(2)) / log(2);
 			return (i - nu);
 		}
-		new.x = point.x * point.x - point.y * point.y + c.x;
-		new.y = 2 * point.x * point.y + c.y;
+		new.x = point.x *point.x - point.y *point.y + c.x;
+		new.y = 2 * point.x *point.y + c.y;
 		point = new;
 	}
 	return (0);
